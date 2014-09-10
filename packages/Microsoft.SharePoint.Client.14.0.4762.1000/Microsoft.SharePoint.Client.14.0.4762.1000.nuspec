@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.SharePoint.Client</id>
+    <version>14.0.4762.1000</version>
+    <title>Microsoft SharePoint Foundation 2010 Client Object Model</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This NuGet package includes assemblies needed to use the Microsoft SharePoint 2010 Client Object Model for .NET managed applications.</description>
+    <summary>This NuGet package includes assemblies needed to use the Microsoft SharePoint 2010 Client Object Model for .NET managed applications.</summary>
+    <tags>sharepoint sp2010</tags>
+  </metadata>
+</package>
