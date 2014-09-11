@@ -90,6 +90,11 @@
     </Compile>
     <Compile Include="SearchEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\ftlpssrslb\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\mdmpartnercustomer\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -100,11 +105,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.datasvcmap</DependentUpon>
     </Compile>
-    <Compile Include="Web References\ftlpssrslb\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -113,106 +113,462 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ActiveState1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CacheRefreshPlan1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CacheRefreshPlanState1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CancelJobResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CatalogItem1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ChangeSubscriptionOwnerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateCacheRefreshPlanResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateCatalogItemResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateDataDrivenSubscriptionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateDataSourceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateFolderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateItemHistorySnapshotResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateLinkedItemResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateReportEditSessionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateRoleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateScheduleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.CreateSubscriptionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DataRetrievalPlan1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DataSetDefinition1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DataSource1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DataSourceDefinition1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DataSourcePrompt1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DeleteCacheRefreshPlanResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DeleteItemHistorySnapshotResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DeleteItemResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DeleteRoleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DeleteScheduleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DeleteSubscriptionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.DisableDataSourceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.EnableDataSourceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Event1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ExpirationDefinition1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Extension1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ExtensionParameter1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ExtensionSettings1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.FindItemsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.FireEventResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.FlushCacheResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GenerateModelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetCacheOptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetCacheRefreshPlanPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetDataDrivenSubscriptionPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetDataSourceContentsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetExecutionOptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetExtensionSettingsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetItemDataSourcePromptsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetItemDataSourcesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetItemDefinitionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetItemHistoryLimitResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetItemHistoryOptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetItemLinkResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetItemParametersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetItemReferencesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetItemTypeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetModelItemPermissionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetModelItemPoliciesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetPermissionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetPoliciesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetReportServerConfigInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetRolePropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetSchedulePropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetSubscriptionPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetSystemPermissionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetSystemPoliciesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetSystemPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.GetUserModelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.InheritModelItemParentSecurityResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.InheritParentSecurityResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.IsSSLRequiredResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ItemHistorySnapshot1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ItemParameter1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ItemReferenceData1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Job1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListCacheRefreshPlansResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListChildrenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListDatabaseCredentialRetrievalOptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListDependentItemsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListEventsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListExecutionSettingsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListExtensionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListExtensionTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListItemHistoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListItemTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListJobActionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListJobsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListJobStatesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListJobTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListModelDrillthroughReportsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListModelItemChildrenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListModelItemTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListModelPerspectivesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListMySubscriptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListParameterStatesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListParameterTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListParentsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListRolesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListScheduledItemsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListSchedulesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListScheduleStatesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListSecurityScopesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListSubscriptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListSubscriptionsUsingDataSourceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ListTasksResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.LogoffResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.LogonUserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ModelCatalogItem1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ModelDrillthroughReport1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ModelItem1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.MoveItemResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ParameterValue1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ParameterValueOrFieldReference1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.PauseScheduleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Policy1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.PrepareQueryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Property1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.RegenerateModelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.RemoveAllModelItemPoliciesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ResumeScheduleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Role1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Schedule1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ScheduleDefinitionOrReference1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ServerInfoHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetCacheOptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetCacheRefreshPlanPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetDataDrivenSubscriptionPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetDataSourceContentsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetExecutionOptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetItemDataSourcesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetItemDefinitionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetItemHistoryLimitResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetItemHistoryOptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetItemLinkResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetItemParametersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetItemReferencesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetModelDrillthroughReportsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetModelItemPoliciesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetPoliciesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetRolePropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetSchedulePropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetSubscriptionPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetSystemPoliciesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.SetSystemPropertiesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Subscription1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Task1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.TestConnectForDataSourceDefinitionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.TestConnectForItemDataSourceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.UpdateItemExecutionSnapshotResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.ValidateExtensionSettingsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\CDM_SearchEngine.ftlpssrslb.Warning1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ftlpssrslb\ReportService2010.wsdl" />
     <None Include="Service References\mdmpartnercustomer\service.edmx" />
     <None Include="Service References\Northwind\service.edmx" />
-    <None Include="Web References\ftlpssrslb\ActiveState.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\CacheRefreshPlan.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\CacheRefreshPlanState.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\CatalogItem.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\DataRetrievalPlan.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\DataSetDefinition.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\DataSource.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\DataSourceDefinition.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\DataSourcePrompt.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Event.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ExpirationDefinition.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Extension.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ExtensionParameter.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ExtensionSettings.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ItemHistorySnapshot.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ItemParameter.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ItemReferenceData.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Job.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ModelCatalogItem.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ModelDrillthroughReport.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ModelItem.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ParameterValue.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ParameterValueOrFieldReference.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Policy.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Property.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\ftlpssrslb\ReportService2010.wsdl" />
-    <None Include="Web References\ftlpssrslb\Role.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Schedule.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\ScheduleDefinitionOrReference.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Subscription.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Task.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\ftlpssrslb\Warning.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -241,17 +597,19 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://ftlpssrslb/ReportServer/ReportService2010.asmx%3fwsdl">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\ftlpssrslb\</RelPath>
-      <UpdateFromURL>http://ftlpssrslb/ReportServer/ReportService2010.asmx%3fwsdl</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>CDM_SearchEngine_ftlpssrslb_ReportingService2010</CachedSettingsPropName>
-    </WebReferenceUrl>
+    <WCFMetadataStorage Include="Service References\ftlpssrslb\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ftlpssrslb\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ftlpssrslb\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ftlpssrslb\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -22,15 +22,5 @@ namespace CDM_SearchEngine.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://ftlpssrslb:80/ReportServer/ReportService2010.asmx")]
-        public string CDM_SearchEngine_ftlpssrslb_ReportingService2010 {
-            get {
-                return ((string)(this["CDM_SearchEngine_ftlpssrslb_ReportingService2010"]));
-            }
-        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CDM_SearchEngine;
 using CDM_SearchEngine.mdmpartnercustomer;
 using Elasticsearch.Net;
+using Microsoft.SharePoint.Client;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,12 +15,19 @@ namespace CDM_SearchEngineTest
     static class ScenariosTests
     {
         static SearchEngine myEngine;
+        public static ClientContext ctxSharePoint;
+        public static Web oWebSiteSharePoint;
 
         public static void setEngine(SearchEngine engine4Tests)
         {
             myEngine = engine4Tests;
         }
 
+        public static void setContextSharePoint()
+        {
+            ctxSharePoint = myEngine.clientContextSharePoint;
+            oWebSiteSharePoint = myEngine.oWebsiteSharePoint;
+        }
         public static String executeQueryPostalCodeOD(IQueryable<String> query)
         {
             return (String)query.First<String>();
@@ -33,7 +41,7 @@ namespace CDM_SearchEngineTest
         public static IQueryable<String> defineQueryPostalCodeOD()
         {
             // Create a LINQ query to get...            
-            IQueryable<String> query = from o in myEngine.context.Customers
+            IQueryable<String> query = from o in myEngine.contextNorth.Customers
                                        where o.CustomerID == "ALFKI"
                                        select o.PostalCode;
 
@@ -113,14 +121,15 @@ namespace CDM_SearchEngineTest
 
             var index = "mdmpartnercustomer";
             var type = "vw_Partner_Hierarchy_Customer";
-            var id = "1";
+            //var id = "1";
             
             dynamic d = new {a = "hola"};
-            
-            var c = myEngine.client.SearchGet(index,type);
+
+            var c = myEngine.clientES.SearchGet(index, type);
             DynamicDictionary re = c.Response;
             var ddd = re.Values.ElementAt(3);
             return true;
         }
+        
     }
 }

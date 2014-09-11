@@ -15,14 +15,18 @@ using CDM_SearchEngine.Northwind;
 using CDM_SearchEngine.mdmpartnercustomer;
 using System.Net;
 using CDM_SearchEngine.ftlpssrslb;
+using System.IO;
+using System.Web.Services.Protocols;
+using System.Diagnostics;
 
 namespace CDM_SearchEngine
 {
     public class SearchEngine
     {
         private static SearchEngine instance = null;    
-        public ElasticsearchClient client;	    
-        
+        public ElasticsearchClient clientES;
+        public Web oWebsiteSharePoint;
+
         private const String ID_NOT_FOUND = "<ID NOT FOUND>";
 	    private const String HTTP_METHOD_PUT = "PUT";
 	    private const String HTTP_METHOD_POST = "POST";
@@ -51,21 +55,21 @@ namespace CDM_SearchEngine
         private const String USER_DS = "t_leandrod1";
         private const String PASSWORD_DS = "tellago*7";
 	    private const String USED_FORMAT = APPLICATION_JSON;
-        public NorthwindEntities context;
+        public NorthwindEntities contextNorth;
         public MDMPartnerCustomerEntities contextMDM_pc;
-
+        public ClientContext clientContextSharePoint;
         // Define the URI of the public Northwind OData service.
         private Uri northwindUri = new Uri(SERVICE_OD_URL_NORTH, UriKind.Absolute);
         private Uri storeUri = new Uri(SERVICE_OD_URL_STORE, UriKind.Absolute);
         private Uri mdmpcUri = new Uri(SERVICE_OD_URL_MDMPC, UriKind.Absolute);
         // Define the URI of the public ElasticSearch service.
         //private Uri hostEs = new Uri("http://192.168.0.186:9200", UriKind.Absolute);
-        private Uri hostEs = new Uri("http://10.108.168.99:9200", UriKind.Absolute);        
-        
+        private Uri hostEs = new Uri("http://10.108.168.99:9200", UriKind.Absolute);
+
         public SearchEngine() {	      
     		startupES();
             createInstanceOD();
-            loadContextSharePoint();
+            loadContextSharePoint(); //Citropedia
             connectToSSRS();
 	    }
 
@@ -79,61 +83,79 @@ namespace CDM_SearchEngine
         private void startupES(){
     	// on startup    	    	    
             var settings = new ConnectionSettings(hostEs).SetDefaultIndex("peliculas");
-            client = new ElasticsearchClient();// ElasticClient(settings);
+            clientES = new ElasticsearchClient();// ElasticClient(settings);
         }
 
         public void createInstanceOD()
         {
             // Define the URI of the public Northwind OData service.
-            context = new NorthwindEntities(northwindUri);
-            contextMDM_pc = new MDMPartnerCustomerEntities(mdmpcUri);
+            contextNorth = new NorthwindEntities(northwindUri);
+            contextMDM_pc = new MDMPartnerCustomerEntities(mdmpcUri);            
             setCredentialsMDM();
         }
 
         public void loadContextSharePoint()
         {
-            ClientContext clientContext = new ClientContext("http://sharepoint.citrite.net/sites/it/ea/DMO/Citropedia");///Lists/BI%20Term/AllItems.aspx");       
-            clientContext.Credentials = new NetworkCredential(USER_DS , PASSWORD_DS);
+            clientContextSharePoint = new ClientContext("http://sharepoint.citrite.net/sites/it/ea/DMO/Citropedia");///Lists/BI%20Term/AllItems.aspx");       
+            clientContextSharePoint.Credentials = new NetworkCredential(USER_DS, PASSWORD_DS);
+            oWebsiteSharePoint = clientContextSharePoint.Web;
+            clientContextSharePoint.Load(oWebsiteSharePoint);
+            clientContextSharePoint.ExecuteQuery();
+            Debug.WriteLine(oWebsiteSharePoint.Title);
             
-            Web oWebsite = clientContext.Web;
-            clientContext.Load(oWebsite);
+            /*List docList = clientContext.Web.Lists.GetByTitle("Citrix Data Catalog");
+            clientContext.Load(docList); 
+            CamlQuery camlQuery = new CamlQuery();            
+            camlQuery.ViewXml = "<View/>";
+            //camlQuery.ViewXml = "<View Scope='RecursiveAll'></View>";
+
+            ListItemCollection listItems = docList.GetItems(camlQuery);
+            clientContext.Load(docList); clientContext.Load(listItems);
             clientContext.ExecuteQuery();
-            Console.WriteLine(oWebsite.Title);
+            foreach (ListItem listItem in listItems)
+                Console.WriteLine("Id: {0} Title: {1}", listItem.Id, listItem["Title"]);*/
 
             
         }
 
         public void connectToSSRS()
         {
-            ReportingService2010 rs = new ReportingService2010();
-            rs.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            //rs.Url = "http://ftlpssrslb/reportserver/reportservice2010.asmx";
-            rs.Url = "http://ftlpssrslb/Reports/Pages/Folder.aspx";
-            
-            Property name = new Property();
-            name.Name = "Name";
-            
-            Property description = new Property();
-            description.Name = "Description";
-
-            Property[] properties = new Property[2];
-            properties[0] = name;
-            properties[1] = description;
-
             try
             {
-                Property[] returnProperties = rs.GetProperties(
-                "/Reports/Pages", properties);
+                ReportingService2010SoapClient clientSoap = new ReportingService2010SoapClient();
+                clientSoap.ClientCredentials.Windows.ClientCredential = new NetworkCredential(USER_DS, PASSWORD_DS);
+                //ReportingService2010 rs = new ReportingService2010();
+                //rs.Credentials = new NetworkCredential(USER_DS, PASSWORD_DS);// System.Net.CredentialCache.DefaultCredentials;
+                //rs.Url = "http://ftlpssrslb/reportserver/reportservice2010.asmx";
+                //rs.Url = "http://ftlpssrslb/Reports/Pages/Folder.aspx";
+                //rs.Url = "http://ftlpssrslb/reportserver/ReportService2010.asmx";
 
-                foreach (Property p in returnProperties)
+              /*  
+            byte[] reportDefinition = null;
+            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+
+            string reportName = "/CMD/AccountPenetrationReport";
+               
+                // Return a list of catalog items in the report server database
+                CatalogItem[] catalogItems = null;
+                TrustedUserHeader Myheader = new TrustedUserHeader();
+              //sclienfdtSoap.ListChildren(Myheader, "/", true, out catalogItems);
+                
+                // For each report, display the path of the report in a Listbox
+                foreach (CatalogItem ci in catalogItems)
                 {
-                    Console.WriteLine(p.Name + ": " + p.Value);
-                }
-            }
+                    Debug.WriteLine(ci.Name);
 
+                }*/
+                
+             }
+            catch (SoapException e)
+            {
+                Console.WriteLine(e.Detail.InnerXml.ToString());
+            }            
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -144,24 +166,24 @@ namespace CDM_SearchEngine
 
         public int? getRequestStatus(String index, String type, String id, Object request)
         {
-            return client.Get(index, type, id).HttpStatusCode;                
+            return clientES.Get(index, type, id).HttpStatusCode;                
         }
 
         public int? postRequestStatus(String index, String type, String id, Object request)
         {
-            var indexResponse = client.Index(index, type, id, request);
+            var indexResponse = clientES.Index(index, type, id, request);
             return indexResponse.HttpStatusCode;
         }
 
         public bool postClientIndex(String index, String type, String id, Object request)
         {
-            return client.Index(index, type, id, request).Success;
+            return clientES.Index(index, type, id, request).Success;
         }
 
         public bool existDocumentOnES(String index, String type, String id, Object request)
         {                        
             //string sss = getResponse.Response["_source"];            
-            return client.Get(index, type, id).Success;           
+            return clientES.Get(index, type, id).Success;           
         }
 
         public bool existDocumentOnOD(String index, String type, String id, Object request)
@@ -183,7 +205,7 @@ namespace CDM_SearchEngine
 
             var query2 = context.Customers.AsQueryable().Where(predicate);*/
 
-            return client.Get(index, type, id).Success;
+            return clientES.Get(index, type, id).Success;
         }   
 
     }
