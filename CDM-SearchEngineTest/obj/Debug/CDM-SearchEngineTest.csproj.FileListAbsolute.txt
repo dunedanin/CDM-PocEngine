@@ -3,6 +3,8 @@ C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\CDM-SearchEngine.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\Elasticsearch.Net.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\Microsoft.Data.Services.Client.dll
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\Microsoft.SharePoint.Client.dll
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\Microsoft.SharePoint.Client.Runtime.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\Nest.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\Newtonsoft.Json.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\Microsoft.Data.Edm.dll
@@ -57,5 +59,4 @@ C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\obj\Debug\CDM-SearchEngineTest.csprojResolveAssemblyReference.cache
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\obj\Debug\CDM-SearchEngineTest.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\obj\Debug\CDM-SearchEngineTest.pdb
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\Microsoft.SharePoint.Client.dll
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\Microsoft.SharePoint.Client.Runtime.dll
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\CDM-SearchEngineTest.dll.config

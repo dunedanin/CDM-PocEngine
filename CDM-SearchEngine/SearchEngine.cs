@@ -18,6 +18,9 @@ using CDM_SearchEngine.ftlpssrslb;
 using System.IO;
 using System.Web.Services.Protocols;
 using System.Diagnostics;
+using System.ServiceModel;
+using System.ServiceModel.Description;
+using System.ServiceModel.Channels;
 
 namespace CDM_SearchEngine
 {
@@ -45,7 +48,7 @@ namespace CDM_SearchEngine
 	
 	    private const bool PRINT_RAW_CONTENT = true;
 	
-	    /*private const String SERVICE_OD_URL = "http://localhost:8080/cars-annotations-sample/MyFormula.svc";*/
+	    //private const String SERVICE_OD_URL = "http://localhost:8080/cars-annotations-sample/MyFormula.svc";
         private const String SERVICE_OD_URL_NORTH = "http://services.odata.org/Northwind/Northwind.svc/";
         private const String SERVICE_OD_URL_STORE = "http://services.odata.org/V2/(S(r2ir5rzsz3ygo1dahemljxgj))/OData/OData.svc/";
         private const String SERVICE_OD_URL_MDMPC = "http://service.citrite.net/entity/GenericOData/ods/mdmpartnercustomer";
@@ -57,20 +60,28 @@ namespace CDM_SearchEngine
 	    private const String USED_FORMAT = APPLICATION_JSON;
         public NorthwindEntities contextNorth;
         public MDMPartnerCustomerEntities contextMDM_pc;
-        public ClientContext clientContextSharePoint;
-        // Define the URI of the public Northwind OData service.
-        private Uri northwindUri = new Uri(SERVICE_OD_URL_NORTH, UriKind.Absolute);
+        public ClientContext clientContextSharePoint;        
+        private Uri northwindUri = new Uri(SERVICE_OD_URL_NORTH, UriKind.Absolute); //public Northwind OData service
         private Uri storeUri = new Uri(SERVICE_OD_URL_STORE, UriKind.Absolute);
         private Uri mdmpcUri = new Uri(SERVICE_OD_URL_MDMPC, UriKind.Absolute);
+        
         // Define the URI of the public ElasticSearch service.
         //private Uri hostEs = new Uri("http://192.168.0.186:9200", UriKind.Absolute);
         private Uri hostEs = new Uri("http://10.108.168.99:9200", UriKind.Absolute);
 
+        static void Main()
+        {
+            Console.WriteLine("Hello World!");
+            SearchEngine test = new SearchEngine();
+            test.startUpSSRS();
+            
+        }
+
         public SearchEngine() {	      
-    		startupES();
-            createInstanceOD();
-            loadContextSharePoint(); //Citropedia
-            connectToSSRS();
+    		startupElasticSearch();
+            startUpOData();
+            startUpSharePoint();//Citropedia
+            startUpSSRS();
 	    }
 
         public static SearchEngine getInstance() {
@@ -80,13 +91,12 @@ namespace CDM_SearchEngine
 		    return instance;
 	    }
 
-        private void startupES(){
-    	// on startup    	    	    
+        private void startupElasticSearch(){    	  	    	    
             var settings = new ConnectionSettings(hostEs).SetDefaultIndex("peliculas");
-            clientES = new ElasticsearchClient();// ElasticClient(settings);
+            clientES = new ElasticsearchClient();
         }
 
-        public void createInstanceOD()
+        public void startUpOData()
         {
             // Define the URI of the public Northwind OData service.
             contextNorth = new NorthwindEntities(northwindUri);
@@ -94,7 +104,7 @@ namespace CDM_SearchEngine
             setCredentialsMDM();
         }
 
-        public void loadContextSharePoint()
+        public void startUpSharePoint()
         {
             clientContextSharePoint = new ClientContext("http://sharepoint.citrite.net/sites/it/ea/DMO/Citropedia");///Lists/BI%20Term/AllItems.aspx");       
             clientContextSharePoint.Credentials = new NetworkCredential(USER_DS, PASSWORD_DS);
@@ -118,35 +128,31 @@ namespace CDM_SearchEngine
             
         }
 
-        public void connectToSSRS()
+        public void startUpSSRS()
         {
             try
             {
-                ReportingService2010SoapClient clientSoap = new ReportingService2010SoapClient();
-                clientSoap.ClientCredentials.Windows.ClientCredential = new NetworkCredential(USER_DS, PASSWORD_DS);
-                //ReportingService2010 rs = new ReportingService2010();
-                //rs.Credentials = new NetworkCredential(USER_DS, PASSWORD_DS);// System.Net.CredentialCache.DefaultCredentials;
-                //rs.Url = "http://ftlpssrslb/reportserver/reportservice2010.asmx";
-                //rs.Url = "http://ftlpssrslb/Reports/Pages/Folder.aspx";
-                //rs.Url = "http://ftlpssrslb/reportserver/ReportService2010.asmx";
+              ReportingService2010SoapClient clientSoap = new ReportingService2010SoapClient(); 
+              //clientSoap.ClientCredentials.Windows.ClientCredential = new NetworkCredential(USER_DS, PASSWORD_DS);
 
-              /*  
-            byte[] reportDefinition = null;
-            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+            clientSoap.ClientCredentials.Windows.ClientCredential = new System.Net.NetworkCredential(USER_DS, PASSWORD_DS);
+            clientSoap.ClientCredentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;       
+             
+             TrustedUserHeader Myheader = new TrustedUserHeader();
+             /*string reportName = "/CMD/AccountPenetrationReport";
+             byte[] reportDefinition = null;
+             clientSoap.GetItemDefinition(Myheader, reportName, out reportDefinition);*/
 
-            string reportName = "/CMD/AccountPenetrationReport";
-               
-                // Return a list of catalog items in the report server database
-                CatalogItem[] catalogItems = null;
-                TrustedUserHeader Myheader = new TrustedUserHeader();
-              //sclienfdtSoap.ListChildren(Myheader, "/", true, out catalogItems);
-                
-                // For each report, display the path of the report in a Listbox
-                foreach (CatalogItem ci in catalogItems)
-                {
-                    Debug.WriteLine(ci.Name);
-
-                }*/
+              // Return a list of catalog items in the report server database
+              CatalogItem[] catalogItems = null;                
+              clientSoap.ListChildren(Myheader, "/CMD", true, out catalogItems);
+                                
+              // For each report, display the path of the report in a Listbox
+              foreach (var ci in catalogItems)
+              {
+                Debug.WriteLine(ci.Name);
+                Debug.WriteLine(ci.ItemMetadata);
+              }
                 
              }
             catch (SoapException e)

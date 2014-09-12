@@ -1,0 +1,31 @@
+- cambiar web reference a service reference
+- ver si se puede recorrer las carpetas de report server
+- guardar URLs (_url) del recurso en ES
+- ver que tiene ES para buscar dentro de documentos JSON
+
+
+
+
+
+
+System.ServiceModel.Security.MessageSecurityException: 
+The HTTP request is unauthorized with client authentication scheme 'Anonymous'. 
+The authentication header received from the server was 'Negotiate,NTLM'. ---> 
+System.Net.WebException: The remote server returned an error: (401) Unauthorized.
+
+
+   <!--
+     <behaviors>
+      <endpointBehaviors>
+        <behavior name="endPointCredential">
+          <basicHttpCredential userName="t_leandrod1" password="tellago*7" />
+        </behavior>
+      </endpointBehaviors>
+    </behaviors>
+    <extensions>
+       
+        <behaviorExtensions>
+          <add name="basicHttpCredential" type="Azure.ServiceModel.BasicHttpCredentialBehaviorElement, Azure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=72acb2628d02c9fb" />
+          <add name="connectionStatusBehavior" type="Microsoft.ServiceBus.Configuration.ConnectionStatusElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><add name="transportClientEndpointBehavior" type="Microsoft.ServiceBus.Configuration.TransportClientEndpointBehaviorElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><add name="serviceRegistrySettings" type="Microsoft.ServiceBus.Configuration.ServiceRegistrySettingsElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+        </behaviorExtensions>
+  </extensions>-->
