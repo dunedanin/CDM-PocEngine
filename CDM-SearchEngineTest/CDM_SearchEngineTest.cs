@@ -5,6 +5,10 @@ using Nest;
 using Microsoft.SharePoint.Client;
 using System.Linq;
 using System.Diagnostics;
+using CDM_SearchEngine.ftlpssrslb;
+using Elasticsearch.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
 
 namespace CDM_SearchEngineTest
 {
@@ -196,8 +200,103 @@ namespace CDM_SearchEngineTest
             Assert.IsTrue(result);
         }
 
+        [TestMethod]
+        public void testGetCatalogItemNameFromSSRS(){
+            // Return a list of catalog items in the report server database
+              TrustedUserHeader Myheader = new TrustedUserHeader();
+              CatalogItem[] catalogItems = null;                
+              myEngine.clientSoap.ListChildren(Myheader, "/CMD", true, out catalogItems);
+                                
+              // For each report, display the path of the report in a Listbox
+              /*foreach (var ci in catalogItems)
+              {
+                Debug.WriteLine(ci.Name);
+                Debug.WriteLine(ci.ItemMetadata);
+              }*/
 
+              Assert.AreEqual("AccountPenetrationReport", catalogItems[0].Name);
+              Assert.AreEqual("/CMD/AccountPenetrationReport", catalogItems[0].Path);
+        }
 
+        [TestMethod]
+        public void testSearchJsonFields()
+        {
+
+            var d = new
+            {
+                name = "Account",
+                nadescription = "The lowest level purchasing entity",
+                owner = "Dagmar Garcia"
+            };
+            
+            var cc = myEngine.clientElastic.GetSource("citropedia", "bi_term", "1", qs => qs
+                        .Routing("routingvalue").AddQueryString("name", "Dagmar Garcia"));
+        }
+
+        [TestMethod]
+        public void testSearchByNameReturnString()
+        {            
+            Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
+            SearchRequestParameters request = new SearchRequestParameters();
+
+            var document = "owner:garcia";
+            request.AddQueryString("q", document);
+            requestParameters = s => s = request;
+            var results = myEngine.clientElastic.SearchGet("citropedia", "bi_term",  requestParameters);
+
+            ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
+            Debug.WriteLine(hits.ToString());
+            Assert.AreEqual(1, (long)results.Response["hits"]["total"].value);
+
+        }    
+
+            [TestMethod]
+        public void testSearchByNameNotFound()
+        {            
+            Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
+            SearchRequestParameters request = new SearchRequestParameters();
+
+            var document = "owner:garzxscia";
+            request.AddQueryString("q", document);
+            requestParameters = s => s = request;
+            var results = myEngine.clientElastic.SearchGet("citropedia", "bi_term",  requestParameters);
+
+            ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
+            Debug.WriteLine(hits.ToString());
+            Assert.AreEqual(0, (long)results.Response["hits"]["total"].value);
+
+        }
+
+            [TestMethod]
+            public void testSearchByNameOnRoot()
+            {
+                Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
+                SearchRequestParameters request = new SearchRequestParameters();
+
+                var document = "owner:garzxscia";
+                request.AddQueryString("q", document);
+                requestParameters = s => s = request;
+                var results = myEngine.clientElastic.SearchGet(requestParameters);
+
+                ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
+                Debug.WriteLine(hits.ToString());
+                Assert.AreEqual(0, (long)results.Response["hits"]["total"].value);
+
+            }
+
+            [TestMethod]
+            public void testSearchByNameFromPortal()
+            {
+                Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
+                SearchRequestParameters request = new SearchRequestParameters();
+
+                var document = "owner:garzxscia";
+                request.AddQueryString("q", document);
+                requestParameters = s => s = request;
+                String results = myEngine.SearchByName("garcia");
+                //Assert.AreEqual(0, (long)results.Response["hits"]["total"].value);
+
+            }
     }
 }
 

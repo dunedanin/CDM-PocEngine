@@ -125,11 +125,10 @@ namespace CDM_SearchEngineTest
             
             dynamic d = new {a = "hola"};
 
-            var c = myEngine.clientES.SearchGet(index, type);
+            var c = myEngine.clientElastic.SearchGet(index, type);
             DynamicDictionary re = c.Response;
             var ddd = re.Values.ElementAt(3);
             return true;
-        }
-        
+        }                
     }
 }
