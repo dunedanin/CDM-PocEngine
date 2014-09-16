@@ -15,19 +15,14 @@ namespace CDM_SearchEngineTest
     static class ScenariosTests
     {
         static SearchEngine myEngine;
-        public static ClientContext ctxSharePoint;
-        public static Web oWebSiteSharePoint;
+        //public static ClientContext ctxSharePoint;
+        //public static Web oWebSiteSharePoint;
 
         public static void setEngine(SearchEngine engine4Tests)
         {
             myEngine = engine4Tests;
         }
 
-        public static void setContextSharePoint()
-        {
-            ctxSharePoint = myEngine.clientContextSharePoint;
-            oWebSiteSharePoint = myEngine.oWebsiteSharePoint;
-        }
         public static String executeQueryPostalCodeOD(IQueryable<String> query)
         {
             return (String)query.First<String>();
@@ -38,21 +33,16 @@ namespace CDM_SearchEngineTest
             return (String)query.First<String>();
         }
 
-        public static IQueryable<String> defineQueryPostalCodeOD()
+        /*public static IQueryable<String> defineQueryPostalCodeOD()
         {
             // Create a LINQ query to get...            
             IQueryable<String> query = from o in myEngine.contextNorth.Customers
                                        where o.CustomerID == "ALFKI"
                                        select o.PostalCode;
-
-            /*IQueryable query2 = from o in myEngine.context.Customers
-                                        where o.PostalCode == "12209"
-                                       select o;*/
-
             return query;            
-        }
+        }*/
 
-        public static IQueryable<string> defineQueryMDMOD_Country_Org_Name()
+        /*public static IQueryable<string> defineQueryMDMOD_Country_Org_Name()
         {
             // Create a LINQ query to get...                        
             IQueryable<string> query = myEngine.contextMDM_pc.vw_Partner_Hierarchy_Customer.Where(
@@ -62,9 +52,9 @@ namespace CDM_SearchEngineTest
             ).Select(a => a.Country_Org_Name);                        
 
             return query;;
-        }
+        }*/
 
-        public static int getQuerySingleMDM_PC()
+        /*public static int getQuerySingleMDM_PC()
         {
             // Create a LINQ query to get...                        
             return (myEngine.contextMDM_pc.vw_Partner_Hierarchy_Customer.Where(
@@ -73,7 +63,7 @@ namespace CDM_SearchEngineTest
                      a.Site_OrgID == "104662HQ"
             ).Select(a => a).Count());
 
-            /*foreach (vw_Partner_Hierarchy_Customer record in query)
+            foreach (vw_Partner_Hierarchy_Customer record in query)
             {
                 Debug.WriteLine(record.Country_CustID);
                 Debug.WriteLine(record.Country_Org_Name);
@@ -84,10 +74,10 @@ namespace CDM_SearchEngineTest
                 Debug.WriteLine(record.Site_CustID);
                 Debug.WriteLine(record.Site_OrgID);
                 Debug.WriteLine(record.Site_OrgName);
-            }*/
-        }
+            }
+        }*/
 
-        public static bool updateESFromQueryOD()
+        /*public static bool updateESFromQueryOD()
         {
             // Create a LINQ query to get...                        
             var query = (myEngine.contextMDM_pc.vw_Partner_Hierarchy_Customer.Where(
@@ -114,9 +104,9 @@ namespace CDM_SearchEngineTest
             };
             searchAllIndexES();
             return myEngine.postClientIndex(index, type, id, request);
-        }
+        }*/
 
-        public static bool searchAllIndexES()
+        /*public static bool searchAllIndexES()
         {
 
             var index = "mdmpartnercustomer";
@@ -129,6 +119,6 @@ namespace CDM_SearchEngineTest
             DynamicDictionary re = c.Response;
             var ddd = re.Values.ElementAt(3);
             return true;
-        }                
+        }*/                
     }
 }

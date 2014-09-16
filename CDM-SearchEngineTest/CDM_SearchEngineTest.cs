@@ -15,18 +15,7 @@ namespace CDM_SearchEngineTest
     [TestClass]
     public class SearchEngineTests
     {
-        SearchEngine myEngine = SearchEngine.getInstance();
-        Web oWebSP;
-        ClientContext ctxSP;
-
-        [TestInitialize()]
-        public void MyTestInitialize()
-        {
-            ScenariosTests.setEngine(myEngine);
-            ScenariosTests.setContextSharePoint();
-            oWebSP = ScenariosTests.oWebSiteSharePoint;
-            ctxSP = ScenariosTests.ctxSharePoint;
-        }
+        SearchEngine myEngine = SearchEngine.GetInstance();        
 
         [TestMethod]
         public void testGetRequestNew()
@@ -46,14 +35,14 @@ namespace CDM_SearchEngineTest
                 year = "2010"
             };
 
-            Assert.AreEqual(201, myEngine.postRequestStatus(index, type, id, request));
+            Assert.AreEqual(201, myEngine.PostRequestStatus(index, type, id, request));
         }
 
         [TestMethod]
         public void testGetRequestOld()
         {
             //Get request and update
-            var myEngine = SearchEngine.getInstance();
+            var myEngine = SearchEngine.GetInstance();
 
             var index = "utn";
             var type = "tacs";
@@ -66,14 +55,14 @@ namespace CDM_SearchEngineTest
                 year = "2014"
             };
 
-            Assert.AreEqual(200, myEngine.getRequestStatus(index, type, id, request));
+            Assert.AreEqual(200, myEngine.GetRequestStatus(index, type, id, request));
         }
 
         [TestMethod]
         public void testGetRequestExistAndUpdate()
         {
             //Get request and update
-            var myEngine = SearchEngine.getInstance();
+            var myEngine = SearchEngine.GetInstance();
 
             var index = "utn";
             var type = "tacs";
@@ -88,70 +77,53 @@ namespace CDM_SearchEngineTest
                 file = fileRan.ToString(),
                 year = "2014"
             };
-            myEngine.postRequestStatus(index, type, id, request);
-            Assert.IsTrue(myEngine.existDocumentOnES(index, type, id, request));
+            myEngine.PostRequestStatus(index, type, id, request);
+            Assert.IsTrue(myEngine.CheckDocumentOnES(index, type, id, request));
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void testSearchCustomerOData()
         {
 
             var query = ScenariosTests.defineQueryPostalCodeOD();
 
             Assert.AreEqual("12209", ScenariosTests.executeQueryPostalCodeOD(query));
-        }
+        }*/
 
-        [TestMethod]
+        /*[TestMethod]
         public void testSearchNewOnElastic()
         {
             //new Search, exist on OData but not on ES--> add on ES
             var query = ScenariosTests.defineQueryPostalCodeOD();
 
             Assert.AreEqual("12209", ScenariosTests.executeQueryPostalCodeOD(query));
-        }
+        }*/
 
-        [TestMethod]
+        /*[TestMethod]
         public void testMDMOD_PartnerCustomer()
         {
 
             var query = ScenariosTests.defineQueryMDMOD_Country_Org_Name();
 
             Assert.AreEqual("Atea Finland Oy", ScenariosTests.executeQueryMDMOD(query));
-        }
+        }*/
 
-
-        [TestMethod]
+        /*[TestMethod]
         public void testSingleRecord_MDM()
         {
             Assert.AreEqual(1, ScenariosTests.getQuerySingleMDM_PC());
-        }
+        }*/
 
-        [TestMethod]
+        /*[TestMethod]
         public void testUpdateESFromOD()
         {
             Assert.IsTrue(ScenariosTests.updateESFromQueryOD());
-        }
+        }*/
 
         [TestMethod]
         public void testReadFromSharePointBI_Term_Account()
-        {
-            var context = myEngine.clientContextSharePoint;
-            var webSite = myEngine.oWebsiteSharePoint;
-            List docList = webSite.Lists.GetByTitle("BI Terms");
-            context.Load(docList);
-            CamlQuery camlQuery = new CamlQuery();
-            camlQuery.ViewXml = "<View/>";
-            //camlQuery.ViewXml = "<View Scope='RecursiveAll'></View>";
-
-            ListItemCollection listItems = docList.GetItems(camlQuery);
-            
-            context.Load(listItems);
-            
-            context.ExecuteQuery();            
-            /*foreach (ListItem listItem in listItems)
-                Debug.WriteLine("Id: {0} Title: {1}", listItem.Id, listItem["Title"]); */
-            
-            Assert.AreEqual("Advising Partner DUNS", listItems[1]["Title"]);
+        {            
+            Assert.AreEqual("Advising Partner DUNS", myEngine.SearchOnSP("BI Terms")[1]["Title"]);
         }
 
         /*[TestMethod]
@@ -172,21 +144,11 @@ namespace CDM_SearchEngineTest
         [TestMethod]
         public void testUpdateCitropediaToElasticItem1_FromCitrixCatalog()
         {
-            var context = myEngine.clientContextSharePoint;
-            var webSite = myEngine.oWebsiteSharePoint;
-            Guid id = new Guid("1d46670b-c932-44c1-88dd-6e30479bb759");            
-            //List citrixCatalog = webSite.Lists.GetByTitle("Citrix Data Catalog");
-            List citrixCatalog = webSite.Lists.GetById(id);
+            
+            Guid id = new Guid("1d46670b-c932-44c1-88dd-6e30479bb759");
+           
+            var itemsCitrixCatalog = myEngine.SearchOnSPById(id);
 
-            CamlQuery camlQuery = new CamlQuery();
-            camlQuery.ViewXml = "<View/>";
-
-            ListItemCollection itemsCitrixCatalog = citrixCatalog.GetItems(camlQuery);
-            context.Load(itemsCitrixCatalog);
-            context.ExecuteQuery();
-
-            /*foreach (ListItem listItem in listItems)
-                Debug.WriteLine("Id: {0} Title: {1}", listItem.Id, listItem["Title"]); */
             var doc = new
             {
                 id = itemsCitrixCatalog[1].Id,
@@ -196,41 +158,24 @@ namespace CDM_SearchEngineTest
                 _url = "http://sharepoint.citrite.net/sites/it/ea/DMO/Citropedia/Lists/Data%20Catalog/DispForm.aspx?ID=2&ContentTypeId=0x010091410F034BE2CF40B791C07AB1414330"
             };
             
-            var result = myEngine.postClientIndex("citropedia", "citrix_data_catalog", id.ToString(), doc);
+            var result = myEngine.PostClientIndex("citropedia", "citrix_data_catalog", id.ToString(), doc);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
         public void testGetCatalogItemNameFromSSRS(){
-            // Return a list of catalog items in the report server database
-              TrustedUserHeader Myheader = new TrustedUserHeader();
-              CatalogItem[] catalogItems = null;                
-              myEngine.clientSoap.ListChildren(Myheader, "/CMD", true, out catalogItems);
+              // Return a list of catalog items in the report server database                    
+              var catalogItems = myEngine.GetCatalogItems("/CMD");                 
                                 
               // For each report, display the path of the report in a Listbox
-              /*foreach (var ci in catalogItems)
+              foreach (var ci in catalogItems)
               {
                 Debug.WriteLine(ci.Name);
                 Debug.WriteLine(ci.ItemMetadata);
-              }*/
+              }
 
               Assert.AreEqual("AccountPenetrationReport", catalogItems[0].Name);
               Assert.AreEqual("/CMD/AccountPenetrationReport", catalogItems[0].Path);
-        }
-
-        [TestMethod]
-        public void testSearchJsonFields()
-        {
-
-            var d = new
-            {
-                name = "Account",
-                nadescription = "The lowest level purchasing entity",
-                owner = "Dagmar Garcia"
-            };
-            
-            var cc = myEngine.clientElastic.GetSource("citropedia", "bi_term", "1", qs => qs
-                        .Routing("routingvalue").AddQueryString("name", "Dagmar Garcia"));
         }
 
         [TestMethod]
@@ -242,7 +187,7 @@ namespace CDM_SearchEngineTest
             var document = "owner:garcia";
             request.AddQueryString("q", document);
             requestParameters = s => s = request;
-            var results = myEngine.clientElastic.SearchGet("citropedia", "bi_term",  requestParameters);
+            var results = myEngine.SearchGet("citropedia", "bi_term",  requestParameters);
 
             ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
             Debug.WriteLine(hits.ToString());
@@ -261,7 +206,7 @@ namespace CDM_SearchEngineTest
             var document = "owner:garzxscia";
             request.AddQueryString("q", document);
             requestParameters = s => s = request;
-            var results = myEngine.clientElastic.SearchGet("citropedia", "bi_term",  requestParameters);
+            var results = myEngine.SearchGet("citropedia", "bi_term",  requestParameters);
 
             ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
             Debug.WriteLine(hits.ToString());
@@ -278,7 +223,7 @@ namespace CDM_SearchEngineTest
                 var document = "owner:garzxscia";
                 request.AddQueryString("q", document);
                 requestParameters = s => s = request;
-                var results = myEngine.clientElastic.SearchGet(requestParameters);
+                var results = myEngine.SearchGet(requestParameters);
 
                 ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
                 Debug.WriteLine(hits.ToString());
@@ -290,9 +235,59 @@ namespace CDM_SearchEngineTest
             public void testSearchByNameFromPortal()
             {
                 var results = myEngine.SearchByOR("account", "", "garcia");
+                
+                foreach(var e in results)
+                    Debug.WriteLine(e.ToString());
 
                 Assert.AreEqual(2, results.Length);
+            }
 
+            [TestMethod]
+            public void testSearchByNameOneHitFromPortal()
+            {
+                var results = myEngine.SearchByOR("", "", "Dagmar  garcia");
+                Assert.AreEqual(1, results.Length);
+            }
+
+            [TestMethod]
+            public void testSearchByNameHitWeirdFromPortal()
+            {
+                var results = myEngine.SearchByOR("juan", "", "Dagmar  garccia");
+                Assert.AreEqual(1, results.Length);
+            }
+
+            [TestMethod]
+            public void testSearchByNameNoHitFromPortal()
+            {
+                var results = myEngine.SearchByOR("juan", "", " garccia");
+                Assert.AreEqual(0, results.Length);
+            }
+
+            [TestMethod]
+            public void testSearchByANDNoResultFromPortal()
+            {
+                var results = myEngine.SearchByAND("pepe", "", "Dagmar  garcia");
+                Assert.AreEqual(0, results.Length);
+            }
+
+            [TestMethod]
+            public void testSearchByANDFoundFromPortal()
+            {
+                var results = myEngine.SearchByAND("account", "", "Dagmar  garcia");
+                Assert.AreEqual(1, results.Length);
+            }
+
+            [TestMethod]
+            public void testSearchByANDBadFromPortal()
+            {
+                var results = myEngine.SearchByAND("accxount", "", "garcia");
+                Assert.AreEqual(0, results.Length);
+            }
+
+            [TestMethod]
+            public void testUpdateElasticFromDSS()
+            {
+                Assert.IsTrue(myEngine.UpdateElastic());
             }
     }
 }

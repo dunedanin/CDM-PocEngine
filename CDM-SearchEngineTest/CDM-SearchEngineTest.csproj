@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Elasticsearch.Net">
       <HintPath>..\packages\Elasticsearch.Net.1.0.2\lib\Elasticsearch.Net.dll</HintPath>
