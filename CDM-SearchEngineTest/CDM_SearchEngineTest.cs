@@ -248,6 +248,8 @@ namespace CDM_SearchEngineTest
             Debug.WriteLine(hits.ToString());
             Assert.AreEqual(1, (long)results.Response["hits"]["total"].value);
 
+            //var sas = (string) results.Response["hits"]["hits"]["_source"]["name"].value;
+
         }    
 
             [TestMethod]
@@ -280,21 +282,16 @@ namespace CDM_SearchEngineTest
 
                 ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
                 Debug.WriteLine(hits.ToString());
-                Assert.AreEqual(0, (long)results.Response["hits"]["total"].value);
+                Assert.AreEqual(0, (long)results.Response["hits"]["total"].value);               
 
             }
 
             [TestMethod]
             public void testSearchByNameFromPortal()
             {
-                Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
-                SearchRequestParameters request = new SearchRequestParameters();
+                var results = myEngine.SearchByOR("account", "", "garcia");
 
-                var document = "owner:garzxscia";
-                request.AddQueryString("q", document);
-                requestParameters = s => s = request;
-                String results = myEngine.SearchByName("garcia");
-                //Assert.AreEqual(0, (long)results.Response["hits"]["total"].value);
+                Assert.AreEqual(2, results.Length);
 
             }
     }

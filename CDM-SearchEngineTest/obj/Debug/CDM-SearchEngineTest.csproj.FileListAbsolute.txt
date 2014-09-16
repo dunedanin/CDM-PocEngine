@@ -1,3 +1,4 @@
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\CDM-SearchEngineTest.dll.config
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\CDM-SearchEngineTest.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\CDM-SearchEngineTest.pdb
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\CDM-SearchEngine.dll
@@ -59,4 +60,3 @@ C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\obj\Debug\CDM-SearchEngineTest.csprojResolveAssemblyReference.cache
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\obj\Debug\CDM-SearchEngineTest.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\obj\Debug\CDM-SearchEngineTest.pdb
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngineTest\bin\Debug\CDM-SearchEngineTest.dll.config

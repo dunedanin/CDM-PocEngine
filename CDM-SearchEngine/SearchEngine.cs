@@ -53,7 +53,18 @@ namespace CDM_SearchEngine
 	    private const String APPLICATION_FORM = "application/x-www-form-urlencoded";
 	    private const String METADATA = "$metadata";
 	    private const String INDEX = "/index.jsp";
-	    private const String SEPARATOR = "/";    	
+	    private const String SEPARATOR = "/";
+        private const String NAME = "name";
+        private const String DESCRIPTION = "description";
+        private const String OWNER = "owner";
+        private const String DP = ":";
+        private const String QUERYI = "q";
+        private const String SPACE = " ";
+        private const String EMPTY = "";
+        private const String OR = "OR";
+        private const String AND = "AND";
+        private const String HITS = "hits";
+        private const String TOTAL_HITS = "total";
 	    private const bool PRINT_RAW_CONTENT = true;	
 	    //private const String SERVICE_OD_URL = "http://localhost:8080/cars-annotations-sample/MyFormula.svc";
         private const String SERVICE_OD_URL_NORTH = "http://services.odata.org/Northwind/Northwind.svc/";
@@ -202,10 +213,52 @@ namespace CDM_SearchEngine
             return clientElastic.Get(index, type, id).Success;
         }
 
-        public String SearchByName(String name)
-        {            
-            return "doc json";
+        public ElasticsearchDynamicValue[] SearchByOR(String p_name, String p_description, String p_owner)
+        {
+            ElasticsearchDynamicValue[] response = null;
+            Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
+            SearchRequestParameters request = new SearchRequestParameters();
+            
+            var UNIONOR = SPACE + OR + SPACE;
+            String document = null;
+
+            if (checkSearchValue(p_name))
+                document = NAME + DP + p_name + UNIONOR;
+
+            if (checkSearchValue(p_description))
+                document = document + DESCRIPTION + DP + p_description;
+
+            if (checkSearchValue(p_owner))
+                document = document + OWNER + DP + p_owner;
+                        
+            request.AddQueryString(QUERYI, document);
+            requestParameters = s => s = request;
+            var results = clientElastic.SearchGet(requestParameters);
+
+            int total_hits = (int) results.Response[HITS][TOTAL_HITS];
+            ElasticsearchDynamicValue hits = results.Response[HITS][HITS];
+
+            if (total_hits>0)
+                response = new ElasticsearchDynamicValue[total_hits];
+            else
+                response = new ElasticsearchDynamicValue[0];
+
+            for (int i = 0; i < total_hits; i++)
+            {                
+                response[i] = hits[i];
+            }
+
+            return response;
         }
+
+        private bool checkSearchValue(String value)
+        {
+            if (value == null || value.Trim() == EMPTY)
+                return false;
+
+            return true;
+        }
+
 
     }
 }

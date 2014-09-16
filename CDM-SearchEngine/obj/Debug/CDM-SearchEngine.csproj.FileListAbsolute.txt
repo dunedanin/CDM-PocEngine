@@ -1,3 +1,5 @@
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\CDM-SearchEngine.dll.config
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\CDM-SearchEngine.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\CDM-SearchEngine.pdb
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Elasticsearch.Net.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\EntityFramework.dll
@@ -7,8 +9,10 @@ C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debu
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.Data.OData.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.Data.Services.Client.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.ReportingServices.Interfaces.dll
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.ServiceBus.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.SharePoint.Client.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.SharePoint.Client.Runtime.dll
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.WindowsAzure.Configuration.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Nest.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Newtonsoft.Json.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\System.Spatial.dll
@@ -20,6 +24,8 @@ C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debu
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.Data.Edm.xml
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.Data.OData.xml
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.Data.Services.Client.xml
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.ServiceBus.xml
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.WindowsAzure.Configuration.xml
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Nest.pdb
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Nest.xml
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Newtonsoft.Json.xml
@@ -60,12 +66,6 @@ C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debu
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\ru\System.Spatial.resources.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\zh-Hans\System.Spatial.resources.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\zh-Hant\System.Spatial.resources.dll
+C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\obj\Debug\CDM-SearchEngine.dll
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\obj\Debug\CDM-SearchEngine.pdb
 C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\obj\Debug\CDM-SearchEngine.csprojResolveAssemblyReference.cache
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.ServiceBus.dll
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.WindowsAzure.Configuration.dll
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.ServiceBus.xml
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\Microsoft.WindowsAzure.Configuration.xml
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\CDM-SearchEngine.dll.config
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\bin\Debug\CDM-SearchEngine.dll
-C:\Users\t_martinda\cdm-workspace\poc\CDM-SearchEngine\CDM-SearchEngine\obj\Debug\CDM-SearchEngine.dll
