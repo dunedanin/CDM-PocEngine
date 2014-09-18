@@ -27,14 +27,16 @@ namespace CDM_SearchEngine
     public class SearchEngine
     {
         private static SearchEngine instance = null;    
-        private ElasticsearchClient clientElastic;        
+        private IElasticsearchClient clientElastic;
+        private ElasticClient clientElasticNest;
         private Web oWebsiteSharePoint;
         private NorthwindEntities contextNorth;
         private MDMPartnerCustomerEntities contextMDM_pc;
         private ClientContext clientContextSharePoint;
         private ReportingService2010SoapClient clientSoap;
         // Define the URI of the public ElasticSearch service.
-        private Uri hostElastic = new Uri("http://10.108.168.99:9200", UriKind.Absolute);
+        //private Uri hostElastic = new Uri("http://10.108.144.123:9200/", UriKind.Absolute);
+        private Uri hostElastic = new Uri("http://localhost:9200/", UriKind.Absolute);
         private Uri northwindUri = new Uri(SERVICE_OD_URL_NORTH, UriKind.Absolute); //public Northwind OData service
         private Uri storeUri = new Uri(SERVICE_OD_URL_STORE, UriKind.Absolute);
         private Uri mdmpcUri = new Uri(SERVICE_OD_URL_MDMPC, UriKind.Absolute);
@@ -63,9 +65,12 @@ namespace CDM_SearchEngine
         private const String OR = "OR";
         private const String AND = "AND";
         private const String HITS = "hits";
+        private const String SEPARATOR_URL = "%2f";
         private const String TOTAL_HITS = "total";
 	    private const bool PRINT_RAW_CONTENT = true;
         private const String PARENT_URL_CITROPEDIA = "/sites/it/ea/DMO/Citropedia/Lists";
+        private const String HEADER_SP_URL = "http://sharepoint.citrite.net/sites/it/ea/DMO/Citropedia/Lists/BI%20Term/Item/displayifs.aspx?List=";
+        private const String HEADER_SSRS_URL = "http://ftlpssrslb/Reports/Pages/Report.aspx?ItemPath=";
 	    //private const String SERVICE_OD_URL = "http://localhost:8080/cars-annotations-sample/MyFormula.svc";
         private const String SERVICE_OD_URL_NORTH = "http://services.odata.org/Northwind/Northwind.svc/";
         private const String SERVICE_OD_URL_STORE = "http://services.odata.org/V2/(S(r2ir5rzsz3ygo1dahemljxgj))/OData/OData.svc/";
@@ -77,12 +82,11 @@ namespace CDM_SearchEngine
         private const String USER_DS = "t_leandrod1";
         private const String PASSWORD_DS = "tellago*7";
 	    private const String USED_FORMAT = APPLICATION_JSON;
-
+        private const String CITROPEDIA = "citropedia";
+        private const String SSRS = "ssrs";
+        private const String TITLE = "Title";
         /*static void Main()
-        {            
-            SearchEngine test = new SearchEngine();
-            test.startUpSSRS();
-            
+        {           
         }*/
 
         private SearchEngine() {	      
@@ -101,8 +105,10 @@ namespace CDM_SearchEngine
 	    }
 
         private void StartupElasticSearch(){
-            var settings = new ConnectionSettings(hostElastic).SetDefaultIndex("citropedia");
-            clientElastic = new ElasticsearchClient();            
+            var settings = new ConnectionSettings(hostElastic);
+            //clientElastic = new ElasticsearchClient();            
+            clientElasticNest = new ElasticClient(settings);
+            clientElastic = clientElasticNest.Raw;
         }
 
         private void StartUpOData()
@@ -208,50 +214,18 @@ namespace CDM_SearchEngine
 
             return clientElastic.Get(index, type, id).Success;
         }
-
-        public ElasticsearchDynamicValue[] SearchByOR(String p_name, String p_description, String p_owner)
+       
+        public ElasticsearchDynamicValue[] Search(ElasticDocument objectToSearch, SearchCriteria p_criteria)
         {
             ElasticsearchDynamicValue[] response = null;
             Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
             SearchRequestParameters request = new SearchRequestParameters();
 
-            ObjectSearch objectToSearch = new ObjectSearch(p_name, p_description, p_owner);
-
-            var UNIONOR = SPACE + OR + SPACE;
-            String document = GenerateDocumentUri(objectToSearch, UNIONOR);
-                                                
-            request.AddQueryString(QUERYI, document);
-            requestParameters = s => s = request;
-            var results = clientElastic.SearchGet(requestParameters);
-
-            int total_hits = (int) results.Response[HITS][TOTAL_HITS];
-            ElasticsearchDynamicValue hits = results.Response[HITS][HITS];
-
-            if (total_hits>0)
-                response = new ElasticsearchDynamicValue[total_hits];
-            else
-                response = new ElasticsearchDynamicValue[0];
-
-            for (int i = 0; i < total_hits; i++)
-            {                
-                response[i] = hits[i];
-            }
-
-            return response;
-        }
-
-        public ElasticsearchDynamicValue[] SearchByAND(String p_name, String p_description, String p_owner)
-        {
-            ElasticsearchDynamicValue[] response = null;
-            Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
-            SearchRequestParameters request = new SearchRequestParameters();
-
-            ObjectSearch objectToSearch = new ObjectSearch(p_name, p_description, p_owner);
-
-            var UNIONAND = SPACE + AND + SPACE;
-            String document = GenerateDocumentUri(objectToSearch, UNIONAND);
+            var unionCriteria = SPACE + p_criteria.Criteria + SPACE;
+            String document = GenerateDocumentUri(objectToSearch, unionCriteria);
 
             request.AddQueryString(QUERYI, document);
+            
             requestParameters = s => s = request;
             var results = clientElastic.SearchGet(requestParameters);
 
@@ -270,18 +244,19 @@ namespace CDM_SearchEngine
 
             return response;
         }
-        private String GenerateDocumentUri(ObjectSearch objectToSearch, String unionSearch)
+
+        private String GenerateDocumentUri(ElasticDocument objectToSearch, String unionSearch)
         {
             String document = null;
 
-            if (CheckSearchValue(objectToSearch.name))
-                document = NAME + DP + objectToSearch.name.Trim() + unionSearch;
+            if (CheckSearchValue(objectToSearch.Search.Name))
+                document = NAME + DP + objectToSearch.Search.Name.Trim() + unionSearch;
 
-            if (CheckSearchValue(objectToSearch.description))
-                document = document + DESCRIPTION + DP + objectToSearch.description.Trim();
+            if (CheckSearchValue(objectToSearch.Search.Description))
+                document = document + DESCRIPTION + DP + objectToSearch.Search.Description.Trim();
 
-            if (CheckSearchValue(objectToSearch.owner))
-                document = document + OWNER + DP + objectToSearch.owner.Trim();
+            if (CheckSearchValue(objectToSearch.Search.Owner))
+                document = document + OWNER + DP + objectToSearch.Search.Owner.Trim();
             
             return document;
         }
@@ -340,9 +315,28 @@ namespace CDM_SearchEngine
         {
             TrustedUserHeader Myheader = new TrustedUserHeader();
             CatalogItem[] catalogItems = null;
-            clientSoap.ListChildren(Myheader, itemPath, true, out catalogItems);
+
+            try
+            {
+                clientSoap.ListChildren(Myheader, itemPath, true, out catalogItems);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+            
+            
             return catalogItems;
         }    
+
+        private CatalogItem[] GetAllCatalogSSRS()
+        {
+            TrustedUserHeader Myheader = new TrustedUserHeader();
+            CatalogItem[] catalogItems = null;
+            clientSoap.ListChildren(Myheader, "/", true, out catalogItems);
+
+            return catalogItems;
+        }
     
         public bool UpdateElastic()
         {
@@ -354,12 +348,132 @@ namespace CDM_SearchEngine
 
         private bool UpdateFromSharePoint()
         {
-            GetAllCitropediaLists();
+            ElasticDocument document = new ElasticDocument();
+            String idItemCitroUrl, headerItemUrl;            
+            //CamlQuery camlQuery = new CamlQuery();
+            CamlQuery camlQuery = CamlQuery.CreateAllItemsQuery();
+            //camlQuery.ViewXml = "<View/>";
+
+            ListCollection itemsCitro = GetAllCitropediaLists();
+            //List itemsBi = items.GetByTitle("BI Terms");
+            ListItemCollection listItems;
+
+            document.Index = CITROPEDIA;           	 
+ 
+            foreach (List itemList in itemsCitro)
+            {
+                if (IsBiTerm(itemList.Title))
+                {
+                    listItems = itemList.GetItems(camlQuery);
+                    clientContextSharePoint.Load(listItems);
+
+                    clientContextSharePoint.Load(listItems,
+                        items=> items.Include(
+                        item=>item.ContentType,
+                        item=>item.ContentType.Name));
+
+                    clientContextSharePoint.ExecuteQuery();
+
+                    document.Type = itemList.Id.ToString();
+                    headerItemUrl = HEADER_SP_URL + "List=" + document.Type;
+
+                    foreach (var item in listItems)
+                    {
+                        
+                        if (item.FieldValues["Title"]!=null)
+                            document.Search.Name = item.FieldValues[TITLE].ToString();
+                        else
+                            document.Search.Name = SPACE;
+
+                        if (item.FieldValues["Short_x0020_Description"] != null)
+                            document.Search.Description = item.FieldValues["Short_x0020_Description"].ToString();
+                        else
+                            document.Search.Description = SPACE;
+
+                        if (item.FieldValues["Term_x0020_Owner"] != null)
+                            document.Search.Owner = item.FieldValues["Term_x0020_Owner"].ToString();
+                        else
+                            document.Search.Owner = SPACE;
+
+                        idItemCitroUrl = "&ID=" + item.Id + "&ContentTypeId=" + item.ContentType.Id.ToString();
+                        document.Url = HEADER_SP_URL + idItemCitroUrl;
+                        document.Id = item.Id.ToString();
+
+                        var docToElastic = ConvertDocToElastic(document);
+
+                        var result = PostClientIndex(document.Index, document.Type, document.Id, docToElastic);
+                    }
+                }
+
+            }
+
             return true;
+        }
+
+        private bool IsBiTerm(String list)
+        {
+            if (list.Equals("BI Terms") || list.Equals("BI Terms JPTest") || list.Equals("BI Terms Old"))
+                return true;
+ 
+            return false;
+        }
+
+        private Object ConvertDocToElastic(ElasticDocument document)
+        {
+            var result = new
+                        {
+                            _search = new
+                            {
+                                name = document.Search.Name,
+                                description = document.Search.Description,
+                                owner = document.Search.Owner
+                            },
+
+                            _body = new {
+                                name = document.Search.Name,
+                                description = document.Search.Description,
+                                owner = document.Search.Owner
+                            },
+
+                            _url = document.Url
+                        };
+
+            return result;
         }
 
         private bool UpdateFromSSRS()
         {
+            ElasticDocument document = new ElasticDocument();
+            String idItemSSRSUrl; 
+            var itemsCatalog = GetAllCatalogSSRS();
+
+            document.Index = SSRS;
+
+            foreach(var itemCatalog in itemsCatalog)
+            {
+                document.Type = itemCatalog.ID;
+                var items = GetCatalogItems(itemCatalog.Path);
+
+                if (items!=null)
+                {
+                    foreach (var item in items)
+                    {
+                        document.Search.Name = item.Name;
+                        document.Search.Description = item.Description;
+                        document.Search.Owner = item.CreatedBy;
+
+                        idItemSSRSUrl = SEPARATOR_URL + itemCatalog.Name + SEPARATOR_URL + item.Name;
+                        document.Url = HEADER_SSRS_URL + idItemSSRSUrl;
+                        document.Id = item.ID;
+
+                        var docToElastic = ConvertDocToElastic(document);
+
+                        var result = PostClientIndex(document.Index, document.Type, document.Id, docToElastic);
+
+                    }
+                }
+            }
+
             return true;
         }
 
@@ -369,16 +483,40 @@ namespace CDM_SearchEngine
             clientContextSharePoint.Load(collList);
             clientContextSharePoint.ExecuteQuery();
 
-            foreach (var e in collList)
+            /*foreach (var e in collList)
             {
-                Debug.WriteLine(e);                
-                //PARENT_URL_CITROPEDIA
-                //e.DefaultViewUrl
-                    //	"/sites/it/ea/DMO/Citropedia/Lists/Approver Groups/AllItems.aspx"
-
-            }
+                Debug.WriteLine(e);                                
+            }*/
 
             return collList;
+        }
+
+        public IEnumerable<ElasticDocument> SearchFuzzy(String likeText)
+        {
+
+            /*var result = es.Search<ElasticDocument>(s=>s
+                        .Query(q=>
+                                q.Term(p=>p.Name, searchItem.Name)
+                                 && q.Term(p=>p.Owner, searchItem.Owner)));*/
+ 
+
+            /*var result = clientElasticNest.Search<ElasticDocument>(s => s
+            .Query(q =>
+                    q.FuzzyLikeThis(p => p.OnFields(f => f.Search)
+                            .OnFields(f => f.Search)
+                            .OnFields(f => f.Search.Owner)
+                            .OnFields(f => f.Search.Description)
+                        .LikeText(likeText)
+                   )
+              ));*/
+
+            var result = clientElasticNest.Search<ElasticDocument>(s => s
+            .Query(q =>
+                    q.FuzzyLikeThis(p => p.LikeText(likeText)
+                   )
+              ));
+
+            return result.Documents;
 
         }
 

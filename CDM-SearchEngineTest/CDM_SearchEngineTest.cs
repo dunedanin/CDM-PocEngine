@@ -15,6 +15,9 @@ namespace CDM_SearchEngineTest
     [TestClass]
     public class SearchEngineTests
     {
+        private const String OR = "OR";
+        private const String AND = "AND";
+
         SearchEngine myEngine = SearchEngine.GetInstance();        
 
         [TestMethod]
@@ -122,7 +125,8 @@ namespace CDM_SearchEngineTest
 
         [TestMethod]
         public void testReadFromSharePointBI_Term_Account()
-        {            
+        {
+            Debug.WriteLine(myEngine.SearchOnSP("BI Terms")[1]["Short_x0020_Description"]);
             Assert.AreEqual("Advising Partner DUNS", myEngine.SearchOnSP("BI Terms")[1]["Title"]);
         }
 
@@ -163,78 +167,78 @@ namespace CDM_SearchEngineTest
         }
 
         [TestMethod]
-        public void testGetCatalogItemNameFromSSRS(){
-              // Return a list of catalog items in the report server database                    
-              var catalogItems = myEngine.GetCatalogItems("/CMD");                 
-                                
-              // For each report, display the path of the report in a Listbox
-              foreach (var ci in catalogItems)
-              {
+        public void testConnectToAndReadFromSSRS()
+        {
+            // Return a list of catalog items in the report server database                    
+            var catalogItems = myEngine.GetCatalogItems("/CMD");
+
+            // For each report, display the path of the report in a Listbox
+            foreach (var ci in catalogItems)
+            {
                 Debug.WriteLine(ci.Name);
                 Debug.WriteLine(ci.ItemMetadata);
-              }
+            }
 
-              Assert.AreEqual("AccountPenetrationReport", catalogItems[0].Name);
-              Assert.AreEqual("/CMD/AccountPenetrationReport", catalogItems[0].Path);
+            Assert.AreEqual("AccountPenetrationReport", catalogItems[0].Name);
+            Assert.AreEqual("/CMD/AccountPenetrationReport", catalogItems[0].Path);
         }
 
         [TestMethod]
         public void testSearchByNameReturnString()
-        {            
-            Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
-            SearchRequestParameters request = new SearchRequestParameters();
+        {                        
+            ElasticDocument document = new ElasticDocument();            
+            document.Search.Owner = "garcia";
+            document.Index = "citropedia";
+            document.Type = "bi_term";
 
-            var document = "owner:garcia";
-            request.AddQueryString("q", document);
-            requestParameters = s => s = request;
-            var results = myEngine.SearchGet("citropedia", "bi_term",  requestParameters);
+            SearchCriteria criteria = new SearchCriteria(OR);
+            
+            var results = myEngine.Search(document, criteria);
 
-            ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
-            Debug.WriteLine(hits.ToString());
-            Assert.AreEqual(1, (long)results.Response["hits"]["total"].value);
-
-            //var sas = (string) results.Response["hits"]["hits"]["_source"]["name"].value;
-
+            Assert.AreEqual(1, results.Length);
+            
         }    
 
             [TestMethod]
         public void testSearchByNameNotFound()
-        {            
-            Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
-            SearchRequestParameters request = new SearchRequestParameters();
+        {
 
-            var document = "owner:garzxscia";
-            request.AddQueryString("q", document);
-            requestParameters = s => s = request;
-            var results = myEngine.SearchGet("citropedia", "bi_term",  requestParameters);
+            ElasticDocument document = new ElasticDocument();
+            document.Search.Owner = "garzxscia";
+            document.Index = "citropedia";
+            document.Type = "bi_term";
 
-            ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
-            Debug.WriteLine(hits.ToString());
-            Assert.AreEqual(0, (long)results.Response["hits"]["total"].value);
+            SearchCriteria criteria = new SearchCriteria(OR);
 
+            var results = myEngine.Search(document, criteria);
+
+            Assert.AreEqual(0, results.Length);
         }
 
             [TestMethod]
             public void testSearchByNameOnRoot()
             {
-                Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
-                SearchRequestParameters request = new SearchRequestParameters();
+                ElasticDocument document = new ElasticDocument();
+                document.Search.Owner = "garzxscia";
 
-                var document = "owner:garzxscia";
-                request.AddQueryString("q", document);
-                requestParameters = s => s = request;
-                var results = myEngine.SearchGet(requestParameters);
+                SearchCriteria criteria = new SearchCriteria(OR);
 
-                ElasticsearchDynamicValue hits = results.Response["hits"]["hits"];
-                Debug.WriteLine(hits.ToString());
-                Assert.AreEqual(0, (long)results.Response["hits"]["total"].value);               
+                var results = myEngine.Search(document, criteria);
+
+                Assert.AreEqual(0, results.Length);               
 
             }
 
             [TestMethod]
             public void testSearchByNameFromPortal()
             {
-                var results = myEngine.SearchByOR("account", "", "garcia");
+                ElasticDocument document = new ElasticDocument();
+                document.Search.Owner = "garcia";
+                document.Search.Name = "account";
+
+                SearchCriteria criteria = new SearchCriteria(OR);
+
+                var results = myEngine.Search(document, criteria);
                 
                 foreach(var e in results)
                     Debug.WriteLine(e.ToString());
@@ -243,51 +247,114 @@ namespace CDM_SearchEngineTest
             }
 
             [TestMethod]
-            public void testSearchByNameOneHitFromPortal()
+            public void testSearchByNameTwoHitFromPortal()
             {
-                var results = myEngine.SearchByOR("", "", "Dagmar  garcia");
-                Assert.AreEqual(1, results.Length);
+                ElasticDocument document = new ElasticDocument();
+                document.Search.Owner = "Dagmar  garcia";
+
+                SearchCriteria criteria = new SearchCriteria(OR);
+
+                var results = myEngine.Search(document, criteria);
+                Assert.AreEqual(2, results.Length);
             }
 
             [TestMethod]
             public void testSearchByNameHitWeirdFromPortal()
             {
-                var results = myEngine.SearchByOR("juan", "", "Dagmar  garccia");
+                ElasticDocument document = new ElasticDocument();
+                document.Search.Owner = "Dagmar  garccia";
+                document.Search.Name = "juan";
+
+                SearchCriteria criteria = new SearchCriteria(OR);
+
+                var results = myEngine.Search(document, criteria);
                 Assert.AreEqual(1, results.Length);
             }
 
             [TestMethod]
             public void testSearchByNameNoHitFromPortal()
             {
-                var results = myEngine.SearchByOR("juan", "", " garccia");
+                ElasticDocument document = new ElasticDocument();
+                document.Search.Owner = "garccia";
+                document.Search.Name = "juan";
+
+                SearchCriteria criteria = new SearchCriteria(OR);
+
+                var results = myEngine.Search(document, criteria);
                 Assert.AreEqual(0, results.Length);
             }
 
             [TestMethod]
             public void testSearchByANDNoResultFromPortal()
             {
-                var results = myEngine.SearchByAND("pepe", "", "Dagmar  garcia");
+                ElasticDocument document = new ElasticDocument();
+                document.Search.Owner = "Dagmar  garcia";
+                document.Search.Name = "pepe";
+
+                SearchCriteria criteria = new SearchCriteria(AND);
+
+                var results = myEngine.Search(document, criteria);
                 Assert.AreEqual(0, results.Length);
             }
 
             [TestMethod]
             public void testSearchByANDFoundFromPortal()
             {
-                var results = myEngine.SearchByAND("account", "", "Dagmar  garcia");
+                ElasticDocument document = new ElasticDocument();
+                document.Search.Owner = "Dagmar  garcia";
+                document.Search.Name = "account";
+
+                SearchCriteria criteria = new SearchCriteria(AND);
+
+                var results = myEngine.Search(document, criteria);
+                Debug.WriteLine(results[0]);
                 Assert.AreEqual(1, results.Length);
             }
 
             [TestMethod]
             public void testSearchByANDBadFromPortal()
             {
-                var results = myEngine.SearchByAND("accxount", "", "garcia");
+                ElasticDocument document = new ElasticDocument();
+                document.Search.Owner = "garcia";
+                document.Search.Name = "accxount";
+
+                SearchCriteria criteria = new SearchCriteria(AND);
+
+                var results = myEngine.Search(document, criteria);
                 Assert.AreEqual(0, results.Length);
+            }
+
+            [TestMethod]
+            public void testSearchFuzzyNoResult()
+            {
+                var myLikeThisSearch = "fazke";
+
+                var results = myEngine.SearchFuzzy(myLikeThisSearch);
+                Assert.AreEqual(2, results.Count());
             }
 
             [TestMethod]
             public void testUpdateElasticFromDSS()
             {
                 Assert.IsTrue(myEngine.UpdateElastic());
+            }
+
+            [TestMethod]
+            public void testSearchFuzzyWithResult()
+            {
+                var myLikeThisSearch = "Affiliate (System Integrator)";
+
+                var results = myEngine.SearchFuzzy(myLikeThisSearch);
+                Assert.AreEqual(7, results.Count());
+            }
+
+            [TestMethod]
+            public void testSearchFuzzyWithThreeResult()
+            {
+                var myLikeThisSearch = "account";
+
+                var results = myEngine.SearchFuzzy(myLikeThisSearch);
+                Assert.AreEqual(10, results.Count());
             }
     }
 }

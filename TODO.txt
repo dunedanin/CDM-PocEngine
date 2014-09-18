@@ -29,3 +29,19 @@ System.Net.WebException: The remote server returned an error: (401) Unauthorized
           <add name="connectionStatusBehavior" type="Microsoft.ServiceBus.Configuration.ConnectionStatusElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><add name="transportClientEndpointBehavior" type="Microsoft.ServiceBus.Configuration.TransportClientEndpointBehaviorElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><add name="serviceRegistrySettings" type="Microsoft.ServiceBus.Configuration.ServiceRegistrySettingsElement, Microsoft.ServiceBus, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
         </behaviorExtensions>
   </extensions>-->
+
+
+
+
+
+el archivo de proyecto se llamaría 
+Scheduler.csproj, 
+namespace default del proyecto CDM.ElasticSearch.Scheduler 
+y la assembly CDM.ElasticSearch.Scheduler.dll
+vos tendrías seguramente un 
+CDM.ElasticSearch.Engine, un CDM.ElasticSearch.Scheduler y 
+quizás varios CDM.ElasticSearch.Provider (que serían los distintos lectores que va llamando el scheduler)
+
+
+
+
