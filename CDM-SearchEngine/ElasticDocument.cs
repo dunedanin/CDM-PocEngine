@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nest;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace CDM_SearchEngine
 {
+    [ElasticType(Name = "_source")]
     public class ElasticDocument
     {
+
         private String index;
         private String type;
-        private String id;
+        private String id;        
         private SearchElasticDoc _search;
         private String _body;
         public String _url;
@@ -20,6 +23,7 @@ namespace CDM_SearchEngine
             Search = new SearchElasticDoc();
         }
 
+        [ElasticProperty(Type = FieldType.Nested)]
         public SearchElasticDoc Search
         {
             get { return _search; }

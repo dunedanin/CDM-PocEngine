@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Channels;
+using Newtonsoft.Json.Linq;
 
 namespace CDM_SearchEngine
 {
@@ -84,7 +85,8 @@ namespace CDM_SearchEngine
 	    private const String USED_FORMAT = APPLICATION_JSON;
         private const String CITROPEDIA = "citropedia";
         private const String SSRS = "ssrs";
-        private const String TITLE = "Title";
+        private const String TITLE = "title";
+
         /*static void Main()
         {           
         }*/
@@ -215,19 +217,35 @@ namespace CDM_SearchEngine
             return clientElastic.Get(index, type, id).Success;
         }
        
-        public ElasticsearchDynamicValue[] Search(ElasticDocument objectToSearch, SearchCriteria p_criteria)
+        //public ElasticsearchDynamicValue[] Search(ElasticDocument objectToSearch, SearchCriteria p_criteria)
+        public IEnumerable<ElasticDocument> Search(ElasticDocument objectToSearch)
         {
-            ElasticsearchDynamicValue[] response = null;
+            /*ElasticsearchDynamicValue[] response = null;
             Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
-            SearchRequestParameters request = new SearchRequestParameters();
-
-            var unionCriteria = SPACE + p_criteria.Criteria + SPACE;
-            String document = GenerateDocumentUri(objectToSearch, unionCriteria);
-
-            request.AddQueryString(QUERYI, document);
+            SearchRequestParameters searchRequest = new SearchRequestParameters();
+                                    
+            var queryDescriptor = new QueryDescriptor<ElasticDocument>().Bool(b=>b.
+                        Should(s=>s.
+                            Match(m =>m.
+                                OnField("_search.name").
+                                    Query(objectToSearch.Search.Name))).
+                        Should(s=>s.
+                            Match(m =>m.
+                                OnField("_search.owner").
+                                    Query(objectToSearch.Search.Owner))).
+                        Should(s => s.
+                            Match(m => m.
+                                OnField("_search.description").
+                                    Query(objectToSearch.Search.Description)))
+                    );                                  
             
-            requestParameters = s => s = request;
-            var results = clientElastic.SearchGet(requestParameters);
+            var searchDescriptor = new SearchDescriptor<ElasticDocument>().
+                Query(queryDescriptor);                         
+
+            var request = clientElasticNest.Serializer.Serialize(searchDescriptor);
+
+            var results = clientElasticNest.Raw.Search(request);
+            //var results2 = clientElasticNest.Search<ElasticDocument>(searchDescriptor);
 
             int total_hits = (int)results.Response[HITS][TOTAL_HITS];
             ElasticsearchDynamicValue hits = results.Response[HITS][HITS];
@@ -240,11 +258,16 @@ namespace CDM_SearchEngine
             for (int i = 0; i < total_hits; i++)
             {
                 response[i] = hits[i];
-            }
+            }*/
 
-            return response;
+            return SearchFuzzy(GetMyFuzzyText(objectToSearch));
+            
         }
 
+        private String GetMyFuzzyText(ElasticDocument doc)
+        {
+            return doc.Search.Name + SPACE + doc.Search.Description + SPACE + doc.Search.Owner;
+        }
         private String GenerateDocumentUri(ElasticDocument objectToSearch, String unionSearch)
         {
             String document = null;
@@ -379,19 +402,23 @@ namespace CDM_SearchEngine
 
                     foreach (var item in listItems)
                     {
-                        
-                        if (item.FieldValues["Title"]!=null)
-                            document.Search.Name = item.FieldValues[TITLE].ToString();
+                        var v_name = item.FieldValues.Where(entry => entry.Key.ToLower().Contains(TITLE)).First().Value;
+                        var v_description = item.FieldValues.Where(entry => entry.Key.ToLower().Contains(DESCRIPTION)).First().Value;
+                        var dd = item.FieldValues.Where(entry => entry.Key.ToLower().Contains(OWNER));
+                        var v_owner = item.FieldValues.Where(entry => entry.Key.ToLower().Contains(OWNER)).First().Value;
+
+                        if (v_name != null)
+                            document.Search.Name = v_name.ToString();
                         else
                             document.Search.Name = SPACE;
 
-                        if (item.FieldValues["Short_x0020_Description"] != null)
-                            document.Search.Description = item.FieldValues["Short_x0020_Description"].ToString();
+                        if (v_description != null)
+                            document.Search.Description = v_description.ToString();
                         else
                             document.Search.Description = SPACE;
 
-                        if (item.FieldValues["Term_x0020_Owner"] != null)
-                            document.Search.Owner = item.FieldValues["Term_x0020_Owner"].ToString();
+                        if (v_owner != null)
+                            document.Search.Owner = v_owner.ToString();
                         else
                             document.Search.Owner = SPACE;
 
@@ -509,10 +536,15 @@ namespace CDM_SearchEngine
                         .LikeText(likeText)
                    )
               ));*/
+            string fieldName = "_search.name";
+            string fieldDescription = "_search.description";
+            string fieldOwner = "_search.owner";
 
+            IEnumerable<string> fields = new List<string>() { fieldName, fieldDescription, fieldOwner };
+            
             var result = clientElasticNest.Search<ElasticDocument>(s => s
             .Query(q =>
-                    q.FuzzyLikeThis(p => p.LikeText(likeText)
+                    q.FuzzyLikeThis(p => p.OnFields(fields).LikeText(likeText)
                    )
               ));
 
