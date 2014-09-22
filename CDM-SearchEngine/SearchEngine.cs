@@ -220,27 +220,38 @@ namespace CDM_SearchEngine
         //public ElasticsearchDynamicValue[] Search(ElasticDocument objectToSearch, SearchCriteria p_criteria)
         public IEnumerable<ElasticDocument> Search(ElasticDocument objectToSearch)
         {
-            /*ElasticsearchDynamicValue[] response = null;
-            Func<SearchRequestParameters, SearchRequestParameters> requestParameters;
-            SearchRequestParameters searchRequest = new SearchRequestParameters();
-                                    
-            var queryDescriptor = new QueryDescriptor<ElasticDocument>().Bool(b=>b.
-                        Should(s=>s.
-                            Match(m =>m.
-                                OnField("_search.name").
-                                    Query(objectToSearch.Search.Name))).
-                        Should(s=>s.
-                            Match(m =>m.
-                                OnField("_search.owner").
-                                    Query(objectToSearch.Search.Owner))).
-                        Should(s => s.
-                            Match(m => m.
-                                OnField("_search.description").
-                                    Query(objectToSearch.Search.Description)))
-                    );                                  
-            
+            ElasticsearchDynamicValue[] response = null;
+           
+            var queryMatchName = new MatchQueryDescriptor<ElasticDocument>().OnField("_search.name").Query(objectToSearch.Search.Name);
+            var queryMatchDescription = new MatchQueryDescriptor<ElasticDocument>().OnField("_search.description").Query(objectToSearch.Search.Description);
+            var queryMatchOwner = new MatchQueryDescriptor<ElasticDocument>().OnField("_search.owner").Query(objectToSearch.Search.Owner);
+
+            var queryTermName = new TermQueryDescriptor<ElasticDocument>().OnField("_search.name").Value(objectToSearch.Search.Name);
+            var queryTermDescription = new TermQueryDescriptor<ElasticDocument>().OnField("_search.description").Value(objectToSearch.Search.Description);
+            var queryTermOwner = new TermQueryDescriptor<ElasticDocument>().OnField("_search.owner").Value(objectToSearch.Search.Owner);
+
+           var queryDescriptor = new QueryDescriptor<ElasticDocument>().Bool(b => b.
+                        Should(s => s.Match(m => m.OnField("_search.name").Query(objectToSearch.Search.Name)) &&
+                            s.Match(m => m.OnField("_search.description").Query(objectToSearch.Search.Description)) &&
+                            s.Match(m => m.OnField("_search.owner").Query(objectToSearch.Search.Owner))));
+
+           var queryDescriptor2 = new QueryDescriptor<ElasticDocument>().Bool(b => b.
+            Must(s => s.Match(m => m.OnField("_search.name").Query(objectToSearch.Search.Name)) &&
+                s.Match(m => m.OnField("_search.description").Query(objectToSearch.Search.Description)) &&
+                s.Match(m => m.OnField("_search.owner").Query(objectToSearch.Search.Owner))));
+
+           var queryDescriptor3 = new QueryDescriptor<ElasticDocument>().Bool(b => b.
+                        Should(s => s.Term(m => m.OnField("_search.name").Value(objectToSearch.Search.Name)) &&
+                            s.Term(m => m.OnField("_search.description").Value(objectToSearch.Search.Description)) &&
+                            s.Term(m => m.OnField("_search.owner").Value(objectToSearch.Search.Owner))));
+
+           var queryDescriptor4 = new QueryDescriptor<ElasticDocument>().Bool(b => b.
+            Must(s => s.Term(m => m.OnField("_search.name").Value(objectToSearch.Search.Name)) &&
+                s.Term(m => m.OnField("_search.description").Value(objectToSearch.Search.Description)) &&
+                s.Term(m => m.OnField("_search.owner").Value(objectToSearch.Search.Owner))));
+
             var searchDescriptor = new SearchDescriptor<ElasticDocument>().
-                Query(queryDescriptor);                         
+                Query(queryDescriptor);
 
             var request = clientElasticNest.Serializer.Serialize(searchDescriptor);
 
@@ -258,7 +269,7 @@ namespace CDM_SearchEngine
             for (int i = 0; i < total_hits; i++)
             {
                 response[i] = hits[i];
-            }*/
+            }
 
             return SearchFuzzy(GetMyFuzzyText(objectToSearch));
             

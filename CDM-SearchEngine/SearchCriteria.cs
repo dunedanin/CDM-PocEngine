@@ -8,17 +8,26 @@ namespace CDM_SearchEngine
 {
     public class SearchCriteria
     {
-        private String criteria;
+        private String condition;
+        private String queryType;
 
-        public String Criteria
+        public String QueryType
         {
-            get { return criteria; }
-            set { criteria = value; }
+            get { return queryType; }
+            set { queryType = value; }
         }
 
-        public SearchCriteria(String p_criteria)
+        public String Condition
         {
-            Criteria = p_criteria;
+            get { return condition; }
+            set { condition = value; }
+        }
+
+        public SearchCriteria(String p_condition, String p_queryType)
+        {
+            Condition = p_condition;
+            QueryType = p_queryType;
+
         }
 
     }

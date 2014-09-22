@@ -227,8 +227,9 @@ namespace CDM_SearchEngineTest
             public void testSearchByNameFromPortal()
             {
                 ElasticDocument document = new ElasticDocument();                
-                document.Search.Name = "RRhh";
-                
+                document.Search.Name = "RRhh 2014";
+                document.Search.Owner = "pepe";
+
                 var results = myEngine.Search(document);
                 
                 foreach(var e in results)
