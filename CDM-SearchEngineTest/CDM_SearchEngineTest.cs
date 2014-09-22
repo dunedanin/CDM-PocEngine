@@ -17,6 +17,10 @@ namespace CDM_SearchEngineTest
     {
         private const String OR = "OR";
         private const String AND = "AND";
+        private const String MATCH = "MATCH";
+        private const String TERM = "TERM";
+        private const String SHOULD = "SHOULD";
+        private const String MUST = "MUST";
 
         SearchEngine myEngine = SearchEngine.GetInstance();        
 
@@ -184,58 +188,47 @@ namespace CDM_SearchEngineTest
         }
 
         [TestMethod]
-        public void testSearchByNameReturnString()
+        public void testSearchByNameSM()
         {                        
-            ElasticDocument document = new ElasticDocument();            
-            document.Search.Owner = "garcia";
-            document.Index = "citropedia";
-            document.Type = "bi_term";
-
-            var results = myEngine.Search(document);
-
-            Assert.AreEqual(0, results.Count());
-            
-        }    
-
-            [TestMethod]
-        public void testSearchByNameNotFound()
-        {
-
             ElasticDocument document = new ElasticDocument();
-            document.Search.Owner = "garzxscia";
-            document.Index = "citropedia";
-            document.Type = "bi_term";
-            
-            var results = myEngine.Search(document);
+            document.Search.Name = "Worldwide Touchpoints";
 
-            Assert.AreEqual(0, results.Count());
+            SearchCriteria criteria = new SearchCriteria(SHOULD, MATCH);
+            var results = myEngine.Search(document, criteria);
+
+            Assert.AreEqual(2, results.Count());
+            
         }
 
-            [TestMethod]
-            public void testSearchByNameOnRoot()
-            {
-                ElasticDocument document = new ElasticDocument();
-                document.Search.Owner = "garzxscia";
-                
-                var results = myEngine.Search(document);
+        [TestMethod]
+        public void testSearchByNameOwnerMustNoResult()
+        {
+            ElasticDocument document = new ElasticDocument();
+            document.Search.Name = "Contract Affiliate";
+            document.Search.Owner = "adm_phillipe";
 
-                Assert.AreEqual(0, results.Count());               
+            SearchCriteria criteria = new SearchCriteria(MUST, MATCH);
+            var results = myEngine.Search(document, criteria);
 
-            }
+            Assert.AreEqual(0, results.Count());
+
+        }  
+
 
             [TestMethod]
             public void testSearchByNameFromPortal()
             {
-                ElasticDocument document = new ElasticDocument();                
-                document.Search.Name = "RRhh 2014";
-                document.Search.Owner = "pepe";
+                ElasticDocument document = new ElasticDocument();
+                document.Search.Name = "Group Grouping Subreport";
+                document.Search.Owner = "CITRITE\\adm_phillipe";
 
-                var results = myEngine.Search(document);
+                SearchCriteria criteria = new SearchCriteria(SHOULD, MATCH);
+                var results = myEngine.Search(document, criteria);
                 
                 foreach(var e in results)
                     Debug.WriteLine(e.ToString());
 
-                Assert.AreEqual(165, results.Count());
+                Assert.AreEqual(10993, results.Count());
             }
 
             [TestMethod]
@@ -244,7 +237,9 @@ namespace CDM_SearchEngineTest
                 ElasticDocument document = new ElasticDocument();
                 document.Search.Owner = "Dagmar  garcia";
 
-                var results = myEngine.Search(document);
+                SearchCriteria criteria = new SearchCriteria(SHOULD, MATCH);
+                var results = myEngine.Search(document, criteria);
+
                 Assert.AreEqual(8, results.Count());
             }
 
@@ -255,7 +250,8 @@ namespace CDM_SearchEngineTest
                 document.Search.Owner = "Dagmar  garccia";
                 document.Search.Name = "juan";
 
-                var results = myEngine.Search(document);
+                SearchCriteria criteria = new SearchCriteria(SHOULD, MATCH);
+                var results = myEngine.Search(document, criteria);
 
                 Assert.AreEqual(0, results.Count());
             }
@@ -267,7 +263,8 @@ namespace CDM_SearchEngineTest
                 document.Search.Owner = "garccia";
                 document.Search.Name = "juan";
 
-                var results = myEngine.Search(document);
+                SearchCriteria criteria = new SearchCriteria(SHOULD, MATCH);
+                var results = myEngine.Search(document, criteria);
 
                 Assert.AreEqual(0, results.Count());
             }
@@ -279,7 +276,8 @@ namespace CDM_SearchEngineTest
                 document.Search.Owner = "Dagmar  garcia";
                 document.Search.Name = "pepe";
 
-                var results = myEngine.Search(document);
+                SearchCriteria criteria = new SearchCriteria(SHOULD, MATCH);
+                var results = myEngine.Search(document, criteria);
 
                 Assert.AreEqual(0, results.Count());
             }
@@ -291,7 +289,8 @@ namespace CDM_SearchEngineTest
                 document.Search.Owner = "adm_phillipe";
                 document.Search.Name = "Sound Device";
 
-                var results = myEngine.Search(document);
+                SearchCriteria criteria = new SearchCriteria(SHOULD, MATCH);
+                var results = myEngine.Search(document, criteria);
 
                 Assert.AreEqual(1, results.Count());
             }
@@ -303,7 +302,8 @@ namespace CDM_SearchEngineTest
                 document.Search.Owner = "garcia";
                 document.Search.Name = "accxount";
 
-                var results = myEngine.Search(document);
+                SearchCriteria criteria = new SearchCriteria(SHOULD, MATCH);
+                var results = myEngine.Search(document, criteria);
 
                 Assert.AreEqual(0, results.Count());
             }
